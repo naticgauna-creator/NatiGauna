@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teatro Espejado — Madrid · Buenos Aires</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0a0c;
+    --blue:#0a4694;
+    --blue-deep:#052a5c;
+    --reflejo:#c9d9f5;
+    --mist:#eef1f7;
+    --paper:#fbfbfa;
+    --muted:#5b5f6b;
+    --line:rgba(10,10,12,0.12);
+    --max:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    margin:0 0 0.4em 0;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0 0 1em 0;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--blue);
+    letter-spacing:0.02em;
+  }
+  ::selection{background:var(--reflejo);}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:40;
+    background:rgba(251,251,250,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;
+  }
+  .nav-mark{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:17px;}
+  .nav-mark img{height:28px;width:auto;}
+  .nav-links{display:flex;gap:28px;font-size:14.5px;}
+  .nav-links a{text-decoration:none;color:var(--muted);transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-toggle{display:none;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 0;
+    overflow:hidden;
+    background:linear-gradient(180deg,var(--paper) 0%, var(--mist) 100%);
+  }
+  .hero-inner{
+    max-width:var(--max);margin:0 auto;padding:0 32px;
+    text-align:center;
+    position:relative;
+    z-index:2;
+  }
+  .hero-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--blue);
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem,7vw,5.4rem);
+    line-height:0.98;
+    font-weight:500;
+    margin-bottom:0;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--blue);
+    font-weight:400;
+  }
+  .hero-cities{
+    margin-top:20px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    color:var(--muted);
+    letter-spacing:0.03em;
+  }
+  .hero-cities .sep{color:var(--reflejo);padding:0 10px;}
+  .hero-sub{
+    max-width:560px;margin:32px auto 0;
+    font-size:17px;color:var(--muted);
+  }
+  .mask-stage{
+    position:relative;
+    margin:44px auto 0;
+    width:340px;
+    height:340px;
+  }
+  .mask-stage img{
+    height:100%;width:100%;
+    object-fit:contain;
+    position:absolute;
+    top:0;left:0;
+    z-index:2;
+  }
+  .mask-reflection{
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;height:100%;
+    transform:scaleY(-1);
+    opacity:0.22;
+    -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0.6),transparent 70%);
+    mask-image:linear-gradient(180deg,rgba(0,0,0,0.6),transparent 70%);
+    z-index:1;
+  }
+  .hero-fade{
+    height:240px;
+    margin-top:-1px;
+    background:linear-gradient(180deg,transparent,var(--paper) 85%);
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:88px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:44px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:22px;
+  }
+  .section-head h2{font-size:clamp(1.7rem,3.4vw,2.5rem);}
+  .section-num{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);}
+
+  /* ---------- PROYECTO ---------- */
+  .proyecto-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:64px;
+    align-items:start;
+  }
+  .proyecto-grid .lead{
+    font-family:'Fraunces',serif;
+    font-size:1.45rem;
+    line-height:1.45;
+    font-weight:400;
+    color:var(--ink);
+  }
+  .proyecto-grid .body-text{color:var(--muted);font-size:16px;max-width:60ch;}
+  .facts{
+    display:flex;flex-direction:column;gap:0;
+    border-top:1px solid var(--line);
+  }
+  .fact{
+    display:flex;gap:18px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .fact .fnum{font-family:'IBM Plex Mono',monospace;color:var(--blue);font-size:13px;padding-top:3px;flex:0 0 28px;}
+  .fact .flabel{font-size:15px;color:var(--ink);}
+  .objetivos{margin-top:36px;}
+  .objetivos h4{font-size:1rem;font-family:'Work Sans',sans-serif;font-weight:600;color:var(--ink);margin-bottom:14px;}
+  .objetivos ul{margin:0;padding-left:0;list-style:none;}
+  .objetivos li{
+    position:relative;padding-left:20px;margin-bottom:10px;
+    font-size:15px;color:var(--muted);
+  }
+  .objetivos li::before{
+    content:'';position:absolute;left:0;top:9px;
+    width:6px;height:6px;border-radius:50%;background:var(--blue);
+  }
+
+  /* ---------- LA OBRA ---------- */
+  .obra{
+    background:var(--ink);
+    color:var(--mist);
+  }
+  .obra .section-head{border-bottom-color:rgba(255,255,255,0.14);}
+  .obra .eyebrow{color:var(--reflejo);}
+  .obra h2{color:#fff;}
+  .obra-title{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    color:#fff;
+    margin-bottom:28px;
+  }
+  .obra-body{
+    max-width:66ch;
+    font-size:17px;
+    color:#c9cdd6;
+  }
+  .obra-body p{margin-bottom:1.3em;}
+  .obra-meta{
+    margin-top:40px;
+    display:flex;
+    gap:40px;
+    flex-wrap:wrap;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--reflejo);
+    border-top:1px solid rgba(255,255,255,0.14);
+    padding-top:24px;
+  }
+  .obra-meta div span{display:block;color:#8b9099;margin-bottom:4px;font-size:12px;}
+
+  /* ---------- EQUIPO ---------- */
+  .equipo-featured{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    margin-bottom:64px;
+  }
+  .lead-person{display:grid;grid-template-columns:190px 1fr;gap:22px;}
+  .lead-person img{
+    width:190px;height:245px;object-fit:cover;
+    filter:grayscale(1);
+  }
+  .lead-person .role{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);margin-bottom:6px;display:block;}
+  .lead-person h3{font-size:1.4rem;margin-bottom:10px;}
+  .lead-person p{font-size:14.5px;color:var(--muted);line-height:1.6;}
+
+  .equipo-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:40px;
+  }
+  .equipo-card img{
+    width:68%;aspect-ratio:4/5;object-fit:cover;
+    filter:grayscale(1);
+    margin:0 auto 16px auto;
+    display:block;
+  }
+  .equipo-card .role{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);display:block;margin-bottom:4px;}
+  .equipo-card h4{font-size:1.1rem;margin-bottom:8px;}
+  .equipo-card p{font-size:14px;color:var(--muted);}
+
+  /* ---------- ELENCO — MIRROR ---------- */
+  .elenco-mirror{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+  }
+  .elenco-side{padding:0 40px;}
+  .elenco-side.arg{border-right:1px solid var(--line);}
+  .elenco-side.esp{}
+  .elenco-city{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--blue);
+    margin-bottom:28px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .elenco-city::after{content:'';flex:1;height:1px;background:var(--line);}
+  .elenco-person{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .elenco-person:last-child{border-bottom:none;}
+  .elenco-person img, .elenco-person .ph{
+    width:64px;height:64px;border-radius:50%;object-fit:cover;
+    filter:grayscale(1);
+    flex-shrink:0;
+  }
+  .elenco-person .ph{
+    background:var(--ink);color:var(--mist);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-size:1.2rem;
+  }
+  .elenco-person .who{font-size:15px;}
+  .elenco-person .who b{display:block;font-weight:600;color:var(--ink);}
+  .elenco-person .who span{font-size:13px;color:var(--muted);}
+  .mirror-axis{
+    position:absolute;left:50%;top:0;bottom:0;
+    width:1px;
+    background:linear-gradient(180deg,transparent,var(--blue) 20%,var(--blue) 80%,transparent);
+    opacity:0.35;
+    display:none;
+  }
+
+  /* ---------- FUNCIONES ---------- */
+  .funciones-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+  }
+  .func-col .city-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;color:var(--blue);
+    margin-bottom:8px;
+  }
+  .func-col h3{font-size:1.6rem;margin-bottom:24px;}
+  .func-item{
+    display:grid;grid-template-columns:96px 1fr;gap:16px;
+    padding:16px 0;border-top:1px solid var(--line);
+  }
+  .func-item:last-child{}
+  .func-item .date{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink);padding-top:2px;}
+  .func-item .what b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px;}
+  .func-item .what span{font-size:13.5px;color:var(--muted);}
+  .func-recurring{
+    margin-top:8px;
+    background:var(--mist);
+    border:1px solid var(--line);
+    padding:18px 20px;
+    font-size:14px;
+    color:var(--muted);
+  }
+  .func-recurring b{color:var(--ink);}
+
+  /* ---------- ALIANZAS ---------- */
+  .alianzas-list{
+    columns:2;
+    column-gap:48px;
+  }
+  .alianzas-list div{
+    break-inside:avoid;
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+    font-family:'Fraunces',serif;
+    font-size:1.05rem;
+  }
+  .alianzas-list div span{
+    display:block;font-family:'Work Sans',sans-serif;font-size:12.5px;color:var(--muted);margin-top:2px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--ink);color:#c9cdd6;
+    padding:64px 0 32px;
+  }
+  .footer-top{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    flex-wrap:wrap;gap:32px;
+    padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.14);
+  }
+  .footer-mark{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.2rem;color:#fff;}
+  .footer-mark img{height:26px;filter:brightness(0) invert(1);}
+  .footer-credits{font-size:13.5px;color:#8b9099;max-width:420px;}
+  .footer-credits b{color:#c9cdd6;}
+  .footer-bottom{
+    display:flex;justify-content:space-between;
+    padding-top:24px;font-size:12.5px;color:#6b6f78;
+    font-family:'IBM Plex Mono',monospace;
+    flex-wrap:wrap;gap:8px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .proyecto-grid{grid-template-columns:1fr;gap:40px;}
+    .equipo-featured{grid-template-columns:1fr;gap:40px;}
+    .equipo-grid{grid-template-columns:1fr 1fr;gap:28px;}
+    .elenco-mirror{grid-template-columns:1fr;}
+    .elenco-side.arg{border-right:none;border-bottom:1px solid var(--line);padding-bottom:36px;margin-bottom:36px;}
+    .elenco-side{padding:0;}
+    .funciones-grid{grid-template-columns:1fr;gap:48px;}
+    .lead-person{grid-template-columns:130px 1fr;}
+    .lead-person img{width:130px;height:168px;}
+    .alianzas-list{columns:1;}
+    section{padding:64px 0;}
+  }
+  @media (max-width:560px){
+    .equipo-grid{grid-template-columns:1fr;}
+    .wrap{padding:0 20px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-mark"><img src="assets/logo_transparent.png" alt=""> Teatro Espejado</div>
+    <div class="nav-links">
+      <a href="#proyecto">Proyecto</a>
+      <a href="#obra">La obra</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#elenco">Elenco</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#alianzas">Alianzas</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">proyecto de coproducción · españa — argentina</div>
+    <h1>Teatro <em>Espejado</em></h1>
+    <div class="hero-cities">MADRID<span class="sep">·</span>BUENOS AIRES<span class="sep">·</span>2026</div>
+    <p class="hero-sub">Un mismo material dramatúrgico, creado en simultáneo en dos ciudades. Dos puestas en escena que se miran de un lado al otro del Atlántico, unidas por un estreno compartido.</p>
+    <div class="mask-stage">
+      <img src="assets/logo_mask_only.png" alt="Teatro Espejado — máscara">
+      <img class="mask-reflection" src="assets/logo_mask_only.png" alt="">
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+</header>
+
+<section id="proyecto">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>El proyecto</h2>
+      <span class="section-num">01 — proyecto</span>
+    </div>
+    <div class="proyecto-grid">
+      <div>
+        <p class="lead">Teatro Espejado conecta Madrid y Buenos Aires a través de un proceso creativo colaborativo entre artistas de ambas ciudades.</p>
+        <p class="body-text">Un mismo material dramatúrgico se desarrolla en simultáneo en los dos territorios, dando lugar a dos puestas en escena diferentes y a un estreno que ocurre al mismo tiempo en ambas orillas. El abordaje es cooperativo, con un diferencial: la distancia. Lejos de ser una frontera, es unión — durante todo el proceso los artistas trabajan en conjunto, y a través de un dispositivo tecnológico el público podrá acceder en vivo a la función que transcurre, en simultáneo, en la otra ciudad.</p>
+        <p class="body-text">Estamos preparando nuestra primera edición: nuestra primera aventura.</p>
+
+        <div class="objetivos">
+          <h4>Objetivos</h4>
+          <ul>
+            <li>Tender puentes creativos entre Buenos Aires y Madrid a través de un proceso de trabajo colaborativo.</li>
+            <li>Generar una red de intercambio entre artistas, directores, dramaturgos y trabajadores del ámbito teatral de ambos países.</li>
+            <li>Impulsar la cooperación internacional en el campo de las artes escénicas.</li>
+            <li>Consolidar vínculos de trabajo a largo plazo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><span class="fnum">01</span><span class="flabel">Una obra de teatro, escrita una sola vez y puesta en escena dos veces.</span></div>
+        <div class="fact"><span class="fnum">02</span><span class="flabel">Dos puestas en escena, dirigidas por Carolina Calema en Madrid y Paula Ransenberg en Buenos Aires.</span></div>
+        <div class="fact"><span class="fnum">03</span><span class="flabel">Estreno en simultáneo en Madrid y Buenos Aires, octubre de 2026.</span></div>
+        <div class="fact"><span class="fnum">04</span><span class="flabel">Dirigido a artistas, dramaturgos, directores, actores, productores y estudiantes de artes escénicas.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="obra" id="obra">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>La obra</h2>
+      <span class="section-num">02 — la obra</span>
+    </div>
+    <div class="obra-title">Distancia Necesaria</div>
+    <div class="obra-body">
+      <p>En su cumpleaños, Paula y Tomás —hermanos mellizos distanciados tras la muerte de sus padres— se reencuentran. Paula llega sin aviso, abrumada por el derrumbe de su matrimonio, a buscar refugio en lo que queda de su familia de origen. Allí irrumpe en la nueva vida que Tomás está construyendo junto a Roma, su pareja mucho más joven y con una visión moderna de los vínculos.</p>
+      <p>Durante una larga noche, el choque de realidades, los recuerdos y las revelaciones saldrán a la luz, amenazando los proyectos de Tomás y transformando la relación de los hermanos para siempre.</p>
+      <p>Una comedia dramática de Carolina Sturla que explora las contradicciones de los lazos entre hermanos y la ineludible necesidad de reconstruir el pasado para poder seguir adelante. Se desarrolla en un único espacio escénico y construye su potencia a partir del trabajo actoral, el texto y los pequeños gestos de la vida cotidiana.</p>
+    </div>
+    <div class="obra-meta">
+      <div><span>Dramaturgia</span>Carolina Sturla</div>
+      <div><span>Dirección España</span>Carolina Calema</div>
+      <div><span>Dirección Argentina</span>Paula Ransenberg</div>
+      <div><span>Género</span>Comedia dramática</div>
+    </div>
+  </div>
+</section>
+
+<section id="equipo">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Equipo</h2>
+      <span class="section-num">03 — equipo</span>
+    </div>
+
+    <div class="equipo-featured">
+      <div class="lead-person">
+        <img src="assets/calema.jpg" alt="Carolina Calema">
+        <div>
+          <span class="role">Dirección — España</span>
+          <h3>Carolina Calema</h3>
+          <p>Formada en el I.V.A. y el I.U.N.A., continuó sus estudios en Commedia dell'arte en Italia. Como directora se destacan sus proyectos Iberescena — entre ellos <em>El bien más preciado</em> y <em>Contra-tiempo</em>, estrenado en la Fundación Antonio Pérez de Cuenca. Desde Calema Producciones trabaja en la investigación y fusión de disciplinas, con foco en la búsqueda de nuevos lenguajes escénicos.</p>
+        </div>
+      </div>
+      <div class="lead-person">
+        <img src="assets/gauna.jpg" alt="Natalia Gauna">
+        <div>
+          <span class="role">Producción general — Argentina</span>
+          <h3>Natalia Gauna</h3>
+          <p>Gestora cultural, productora y escritora. Licenciada en Ciencias de la Comunicación (UBA) y en Artes Escénicas (COSATyC), con posgrado en Gestión Cultural. Trabajó más de diez años como productora ejecutiva en el circuito teatral porteño y fue coordinadora de producción en el Ministerio de Cultura de la Ciudad de Buenos Aires.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="equipo-grid">
+      <div class="equipo-card">
+        <img src="assets/sturla.jpg" alt="Carolina Sturla">
+        <span class="role">Dramaturgia</span>
+        <h4>Carolina Sturla</h4>
+        <p>Dramaturga, directora, gestora cultural y actriz. Licenciada en Psicología (UBA) y magíster en Dramaturgia (UNA). Co-creadora de la Feria de Dramaturgias_Fedras.</p>
+      </div>
+      <div class="equipo-card">
+        <img src="assets/ransenberg.jpg" alt="Paula Ransenberg">
+        <span class="role">Dirección — Argentina</span>
+        <h4>Paula Ransenberg</h4>
+        <p>Actriz y docente de teatro formada con Alejandra Boero, Verónica Oddó y Juan Carlos Gené. Profesora Nacional de Teatro (IUNA) y docente en Timbre 4.</p>
+      </div>
+      <div class="equipo-card">
+        <img src="assets/fabrica.jpg" alt="Vanina Fabrica">
+        <span class="role">Producción comercial</span>
+        <h4>Vanina Fabrica</h4>
+        <p>Productora cultural especializada en artes escénicas. Productora comercial del Teatro Politeama y coordinadora de festivales como FETEMU y Exporteatro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="elenco" style="background:var(--mist);">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Elenco</h2>
+      <span class="section-num">04 — elenco</span>
+    </div>
+    <p style="max-width:60ch;color:var(--muted);margin-bottom:44px;">Cada personaje toma dos cuerpos, uno en cada ciudad: los mismos vínculos, interpretados por dos elencos que nunca comparten escenario, pero sí una misma noche.</p>
+
+    <div class="elenco-mirror">
+      <div class="elenco-side arg">
+        <div class="elenco-city">Buenos Aires · Teatro Border</div>
+        <div class="elenco-person">
+          <img src="assets/daniela_catz.jpg" alt="Daniela Catz">
+          <div class="who"><b>Daniela Catz</b><span>Paula</span></div>
+        </div>
+        <div class="elenco-person">
+          <img src="assets/manuela_menendez.jpg" alt="Manuela Menéndez">
+          <div class="who"><b>Manuela Menéndez</b><span>Roma</span></div>
+        </div>
+        <div class="elenco-person">
+          <img src="assets/daniel_begino.jpg" alt="Daniel Begino">
+          <div class="who"><b>Daniel Begino</b><span>Tomás</span></div>
+        </div>
+      </div>
+      <div class="elenco-side esp">
+        <div class="elenco-city">Madrid · Paco Rabal / Bulevar</div>
+        <div class="elenco-person">
+          <img src="assets/ana_arias.jpg" alt="Ana Arias">
+          <div class="who"><b>Ana Arias</b><span>Paula</span></div>
+        </div>
+        <div class="elenco-person">
+          <img src="assets/renee_fischtel.jpg" alt="Renée Fischtel">
+          <div class="who"><b>Renée Fischtel</b><span>Roma</span></div>
+        </div>
+        <div class="elenco-person">
+          <img src="assets/german_torres.jpg" alt="Germán Torres">
+          <div class="who"><b>Germán Torres</b><span>Tomás</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="funciones">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Funciones</h2>
+      <span class="section-num">05 — funciones</span>
+    </div>
+    <div class="funciones-grid">
+      <div class="func-col">
+        <div class="city-label">Buenos Aires</div>
+        <h3>Teatro Border</h3>
+        <div class="func-item">
+          <div class="date">04 OCT</div>
+          <div class="what"><b>Estreno</b><span>18:30 h — función inaugural en simultáneo con Madrid</span></div>
+        </div>
+        <div class="func-recurring"><b>Temporada regular:</b> todos los domingos a las 18:30 h, del 4 de octubre al 20 de diciembre de 2026.</div>
+      </div>
+      <div class="func-col">
+        <div class="city-label">Madrid y gira por España</div>
+        <h3>Paco Rabal y más</h3>
+        <div class="func-item">
+          <div class="date">02 OCT</div>
+          <div class="what"><b>Ensayo abierto con público</b><span>20:00 h — Centro Cultural Paco Rabal, Madrid</span></div>
+        </div>
+        <div class="func-item">
+          <div class="date">09 OCT</div>
+          <div class="what"><b>Estreno</b><span>20:00 h — Centro Cultural Paco Rabal, Madrid</span></div>
+        </div>
+        <div class="func-item">
+          <div class="date">11 OCT</div>
+          <div class="what"><b>Función</b><span>Teatro Municipal, Almagro</span></div>
+        </div>
+        <div class="func-item">
+          <div class="date">06 NOV</div>
+          <div class="what"><b>Función</b><span>Calzada de Calatrava — Festival Internacional de Artes Escénicas</span></div>
+        </div>
+        <div class="func-item">
+          <div class="date">20–21 NOV</div>
+          <div class="what"><b>Función</b><span>Sevilla — Viento Sur</span></div>
+        </div>
+        <div class="func-item">
+          <div class="date">27 NOV</div>
+          <div class="what"><b>Función</b><span>Guía de Isora, Tenerife</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="alianzas" style="background:var(--mist);">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Alianzas</h2>
+      <span class="section-num">06 — alianzas</span>
+    </div>
+    <div class="alianzas-list">
+      <div>Embajada de España en Argentina<span>AECID — Cooperación Española</span></div>
+      <div>CCEBA<span>Centro Cultural de España en Buenos Aires</span></div>
+      <div>Ministerio de Cultura<span>Gobierno de España</span></div>
+      <div>Centro Cultural Paco Rabal<span>Comunidad de Madrid</span></div>
+      <div>Teatro Border<span>Comunidad de arte, Buenos Aires</span></div>
+      <div>Milena Caserola<span>Colaboración editorial</span></div>
+      <div>Baires Divan<span>Alianza institucional</span></div>
+      <div>Topper<span>Alianza institucional</span></div>
+      <div>Complot<span>Vestuario y producción</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-mark"><img src="assets/logo_transparent.png" alt=""> Teatro Espejado</div>
+      <div class="footer-credits">
+        <b>Producción general España</b> · Calema Producciones<br>
+        <b>Producción general Argentina</b> · LUGA Producciones — Ejecutiva: Natalia Gauna
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Proyecto de coproducción España — Argentina</span>
+      <span>Estreno simultáneo · octubre 2026</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
